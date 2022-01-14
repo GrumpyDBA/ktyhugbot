@@ -7,9 +7,11 @@ import string
 import random
 import quotes
 from telegram import ParseMode
+import os
 
-with open('token.txt', 'r') as f:
-    TOKEN = f.read()
+# with open('token.txt', 'r') as f:
+#     TOKEN = f.read()
+TOKEN = os.environ["TOKEN"]
 
 
 def get_robocat_fromremote(aSeed):
