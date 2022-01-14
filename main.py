@@ -12,20 +12,32 @@ with open('token.txt', 'r') as f:
     TOKEN = f.read()
 
 
-def get_randomrobocat():
-    letters = string.ascii_lowercase
-    randomletters = ''.join(random.choice(letters) for i in range(16)) 
-    url = 'https://robohash.org/' + randomletters + '?set=set4' 
+def get_robocat_fromremote(aSeed):
+    url = 'https://robohash.org/' + aSeed + '?set=set4' 
     # print (url)
     # todo: write out the URL to logs.
     return url
- 
+
 
 @run_async
 def gief_robokitty(update, context):
-    # url = get_a_kitty()
-    url = get_randomrobocat()
-    print(update.message.from_user.id)
+    letters = string.ascii_lowercase
+    randomletters = ''.join(random.choice(letters) for i in range(16)) 
+
+    url = get_robocat_fromremote(randomletters)
+
+    chat_id = update.message.chat_id
+    context.bot.send_photo(chat_id=chat_id, photo=url)
+
+
+@run_async
+def gief_my_robokitty(update, context):
+    userid = str(update.message.from_user.id)
+    # if(len(userid) < 5):
+    #     userid = update.message.from_user.first_name
+    url = get_robocat_fromremote(userid)
+
+    update.message.reply_text(f"Hey {update.message.from_user.first_name}, here is your unique to you Kitty, to hug, pet, and squeeze...")
 
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id=chat_id, photo=url)
@@ -57,6 +69,7 @@ def parse_messages(update, context):
     update.message.reply_text(f"Echo {update.message.text}")
     print(update.message.text)
 
+
 def give_kitty_hug(update, context):
     kittyhugtype = random.randint(0, 100)
     print(kittyhugtype)
@@ -74,15 +87,15 @@ def give_kitty_hug(update, context):
 
 def main():
     updater = telegram.ext.Updater(TOKEN, use_context=True)
-
     global quotesList
     quotesList = quotes.Quoter()
     
     dp = updater.dispatcher
-    dp.add_handler(telegram.ext.CommandHandler('gief_robokitty', gief_robokitty))
-    dp.add_handler(telegram.ext.CommandHandler('gief_kitty', gief_kitty))
-    dp.add_handler(telegram.ext.CommandHandler('get_quote', get_quote))
-    dp.add_handler(telegram.ext.CommandHandler('give_kitty_hug', give_kitty_hug))
+    # dp.add_handler(telegram.ext.CommandHandler('gief_robokitty', gief_robokitty))
+    dp.add_handler(telegram.ext.CommandHandler('gief_my_kitty', gief_my_robokitty))
+    # dp.add_handler(telegram.ext.CommandHandler('gief_kitty', gief_kitty))
+    # dp.add_handler(telegram.ext.CommandHandler('get_quote', get_quote))
+    dp.add_handler(telegram.ext.CommandHandler('hugz', give_kitty_hug))
     # dp.add_handler(telegram.ext.MessageHandler(telegram.ext.Filters.text, parse_messages ))
 
     # dp.add_handler(telegram.ext.CommandHandler('give_kitty_hug', give_kitty_hug))
