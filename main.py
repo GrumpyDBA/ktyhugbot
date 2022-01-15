@@ -39,7 +39,7 @@ def gief_my_robokitty(update, context):
     #     userid = update.message.from_user.first_name
     url = get_robocat_fromremote(userid)
 
-    update.message.reply_text(f"Hey {update.message.from_user.first_name}, here is your unique to you Kitty, to hug, pet, and squeeze...")
+    update.message.reply_text(f"Hey {update.message.from_user.first_name}, here is your unique to you Kitty lovingly delivered by Robohash.org")
 
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id=chat_id, photo=url)
