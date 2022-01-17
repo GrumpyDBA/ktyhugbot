@@ -8,7 +8,6 @@ import random
 import quotes
 from telegram import ParseMode
 import os
-from robohash import Robohash
 
 
 # with open('token_test.txt', 'r') as f:
