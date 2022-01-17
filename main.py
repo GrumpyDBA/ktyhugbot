@@ -8,15 +8,16 @@ import random
 import quotes
 from telegram import ParseMode
 import os
+from robohash import Robohash
 
-# with open('token.txt', 'r') as f:
+
+# with open('token_test.txt', 'r') as f:
 #     TOKEN = f.read()
 TOKEN = os.environ["TOKEN"]
 
 
 def get_robocat_fromremote(aSeed):
     url = 'https://robohash.org/' + aSeed + '?set=set4' 
-    # print (url)
     # todo: write out the URL to logs.
     return url
 
@@ -35,8 +36,6 @@ def gief_robokitty(update, context):
 @run_async
 def gief_my_robokitty(update, context):
     userid = str(update.message.from_user.id)
-    # if(len(userid) < 5):
-    #     userid = update.message.from_user.first_name
     url = get_robocat_fromremote(userid)
 
     update.message.reply_text(f"Hey {update.message.from_user.first_name}, here is your unique to you Kitty lovingly delivered by Robohash.org")
@@ -67,14 +66,13 @@ def get_quote(update, context):
     update.message.reply_text(text=textToSend, parse_mode=ParseMode.MARKDOWN)
 
 
-def parse_messages(update, context):
-    update.message.reply_text(f"Echo {update.message.text}")
-    print(update.message.text)
+# def parse_messages(update, context):
+#     update.message.reply_text(f"Echo {update.message.text}")
+#     print(update.message.text)
 
 
 def give_kitty_hug(update, context):
     kittyhugtype = random.randint(0, 100)
-    print(kittyhugtype)
     if (kittyhugtype <= 33):
         update.message.reply_text(f"Hey {update.message.from_user.first_name}, here's some words of wisdom to reflect upon.")
         get_quote(update, context)
