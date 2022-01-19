@@ -29,7 +29,8 @@ def gief_robokitty(update, context):
     url = get_robocat_fromremote(randomletters)
 
     chat_id = update.message.chat_id
-    context.bot.send_photo(chat_id=chat_id, photo=url)
+    update.message.reply_text(f"{update.message.from_user.first_name}, It'll be ok - Let me summon a kitty to help you....")
+    context.bot.send_photo(chat_id=chat_id, photo=url, caption= "Meow!")
 
 
 @run_async
@@ -57,12 +58,28 @@ def gief_kitty(update, context):
         file_extension = re.search("([^.]*)$",url).group(1).lower()
 
     chat_id = update.message.chat_id
-    context.bot.send_photo(chat_id=chat_id, photo=url)
+    context.bot.send_photo(chat_id=chat_id, photo=url, caption=f"Hey {update.message.from_user.first_name}; have a hug, also here's a cat I found for you, Meow")
 
 
 def get_quote(update, context):
-    textToSend = quotesList.get_markdown_quote()
+    textToSend = f"{update.message.from_user.first_name}, here's something to reflect upon: \n\n"
+    textToSend = textToSend + quotesList.get_markdown_quote()
+
     update.message.reply_text(text=textToSend, parse_mode=ParseMode.MARKDOWN)
+
+
+# def get_aboutauthor(update, context):
+#     textToSend = """The universe amazes me. Billions of years ago, some stuff went down, to date the best minds don't fully understand it as of yet.
+#                     We know that there was a huge amount of energy and hydrogen created, it clumped together, early stars formed, these then went pop and their remanents went on to form more stars with heavier elements that were forged during their deaths. 
+#                     The cycle continued of stars forming, exploding and birthing more stars in their wake, until some 4.6 billion years ago our very own sun was born.
+#                     So aye, we are indeed all children of the stars, literlly made from stardust.
+#                     But consider this, you and I here today; is literal proof, that if you take enough Hydrogen and give it enough time, it will seek to understand itself.
+#                     That to me is the most astounding thing about our existence.
+
+#                     I'm a simple man, not particularly smart or driven, but if I can make this brief existence just a little bit more joyful, then that's a life well lived.
+#                     Dav
+#                     """
+#     update.message.reply_text(text=textToSend)  
 
 
 # def parse_messages(update, context):
@@ -73,13 +90,10 @@ def get_quote(update, context):
 def give_kitty_hug(update, context):
     kittyhugtype = random.randint(0, 100)
     if (kittyhugtype <= 33):
-        update.message.reply_text(f"Hey {update.message.from_user.first_name}, here's some words of wisdom to reflect upon.")
         get_quote(update, context)
     elif (kittyhugtype <= 90):
-        update.message.reply_text(f"Hey {update.message.from_user.first_name}; you poor thing, here's a cat I found on the internet.")
         gief_kitty(update, context)
     else :
-        update.message.reply_text(f"I'm sorry {update.message.from_user.first_name}; You poor thing, here I made a special kitty just for you!")
         gief_robokitty(update, context)
 
 
@@ -95,6 +109,7 @@ def main():
     # dp.add_handler(telegram.ext.CommandHandler('gief_kitty', gief_kitty))
     # dp.add_handler(telegram.ext.CommandHandler('get_quote', get_quote))
     dp.add_handler(telegram.ext.CommandHandler('hugz', give_kitty_hug))
+    # dp.add_handler(telegram.ext.CommandHandler('abouttheauthor', get_aboutauthor))
     # dp.add_handler(telegram.ext.MessageHandler(telegram.ext.Filters.text, parse_messages ))
 
     # dp.add_handler(telegram.ext.CommandHandler('give_kitty_hug', give_kitty_hug))
@@ -105,3 +120,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
