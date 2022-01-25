@@ -67,6 +67,11 @@ def get_quote(update, context):
 
     update.message.reply_text(text=textToSend, parse_mode=ParseMode.MARKDOWN)
 
+def get_communityquote(update, context):
+    textToSend = f"{update.message.from_user.first_name}, here's something I pulled from the KTY tg archives: \n\n"
+    textToSend = textToSend + quotesList.get_markdown_community_quote()
+
+    update.message.reply_text(text=textToSend, parse_mode=ParseMode.MARKDOWN)
 
 # def get_aboutauthor(update, context):
 #     textToSend = """The universe amazes me. Billions of years ago, some stuff went down, to date the best minds don't fully understand it as of yet.
@@ -93,6 +98,8 @@ def give_kitty_hug(update, context):
         get_quote(update, context)
     elif (kittyhugtype <= 90):
         gief_kitty(update, context)
+    elif (kittyhugtype <= 95):
+        get_communityquote(update, context)
     else :
         gief_robokitty(update, context)
 
